@@ -23,6 +23,10 @@ public class ExcelUtility {
     static XSSFCell cell;
     static CellStyle cellStyle;
 
+    public static String calculatorFile() {
+        return  System.getProperty("user.dir")+"\\src\\test\\resources\\CalculatorTest.xlsx";
+    }
+
 
     public static int getRowsNumber(String excelFile, String excelSheet) throws IOException {
         fileInput = new FileInputStream(excelFile);
@@ -33,6 +37,7 @@ public class ExcelUtility {
         fileInput.close();
 
         return rows;
+
     }
 
     public static int getCellsNumber(String excelFile, String excelSheet, int rowNumber) throws IOException {
@@ -70,12 +75,12 @@ public class ExcelUtility {
         return data;
     }
 
-    public void setCellData(String excelFile, String excelSheet, int rowNumber, int cellNumber, String data) throws IOException {
+    public static void setCellData(String excelFile, String excelSheet, int rowNumber, int cellNumber, String data) throws IOException {
         fileInput = new FileInputStream(excelFile);
         workbook = new XSSFWorkbook(fileInput);
         sheet = workbook.getSheet(excelSheet);
         row = sheet.getRow(rowNumber);
-        cell = row.getCell(cellNumber);
+        cell = row.createCell(cellNumber);
         cell.setCellValue(data);
 
         fileOutput = new FileOutputStream(excelFile);
@@ -85,7 +90,7 @@ public class ExcelUtility {
         fileOutput.close();
     }
 
-    public void fillGreen(String excelFile, String excelSheet, int rowNumber, int cellNumber) throws IOException {
+    public static void fillGreen(String excelFile, String excelSheet, int rowNumber, int cellNumber) throws IOException {
         fileInput = new FileInputStream(excelFile);
         workbook = new XSSFWorkbook(fileInput);
         sheet = workbook.getSheet(excelSheet);
@@ -95,11 +100,15 @@ public class ExcelUtility {
 
         cellStyle.setFillForegroundColor(IndexedColors.GREEN.getIndex());
         cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        cell.setCellStyle(cellStyle);
+        fileOutput = new FileOutputStream(excelFile);
+        workbook.write(fileOutput);
         workbook.close();
         fileInput.close();
+        fileOutput.close();
     }
 
-    public void fillRed(String excelFile, String excelSheet, int rowNumber, int cellNumber) throws IOException {
+    public static void fillRed(String excelFile, String excelSheet, int rowNumber, int cellNumber) throws IOException {
         fileInput = new FileInputStream(excelFile);
         workbook = new XSSFWorkbook(fileInput);
         sheet = workbook.getSheet(excelSheet);
@@ -109,8 +118,12 @@ public class ExcelUtility {
 
         cellStyle.setFillForegroundColor(IndexedColors.RED.getIndex());
         cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        cell.setCellStyle(cellStyle);
+        fileOutput = new FileOutputStream(excelFile);
+        workbook.write(fileOutput);
         workbook.close();
         fileInput.close();
+        fileOutput.close();
     }
 
 
